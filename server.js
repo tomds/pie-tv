@@ -1,24 +1,37 @@
-const Promise = require('bluebird');
+const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
+const Promise = require('bluebird');
+const nunjucks = require('nunjucks');
 
 
 class Server {
     constructor() {
         this.start = Promise.coroutine(this.start);
+
+        this.app = express();
+        this.app.set('view engine', 'html');
+        nunjucks.configure(
+            'views',
+            {
+                autoescape: true,
+                express: this.app,
+            }
+        );
+
+        this.defineRoutes();
     }
 
     * start() {
-        const db = yield this.connect();
-        const results = yield db.collection('channels').find({}).toArray();
-        return results;
+        this.db = yield MongoClient.connect('mongodb://localhost/pietv');
+        this.app.listen(3000);
     }
 
-    connect() {
-        return MongoClient.connect('mongodb://localhost/pietv');
+    defineRoutes() {
+        this.app.get('/', (req, res) => {
+            res.render('index');
+        });
     }
 }
 
 const server = new Server();
-server.start().then((db) => {
-    console.log(db);
-});
+server.start();

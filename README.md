@@ -22,6 +22,8 @@ npm run import-fixtures
 npm start
 ```
 
+## Browser support
+
 ## Running tests
 ```
 npm test
