@@ -1,0 +1,28 @@
+{
+  "name": "pie-tv",
+  "version": "1.0.0",
+  "description": "Providing a small but perfectly formed set of TV channels to a very localised audience",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomds/pie-tv.git"
+  },
+  "author": "Tom de Simone <tom1@tomandpete.co.uk>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomds/pie-tv/issues"
+  },
+  "homepage": "https://github.com/tomds/pie-tv#readme",
+  "private": true,
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "express": "^4.14.0",
+    "mocha": "^2.5.3"
+  }
+}
