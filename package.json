@@ -5,9 +5,10 @@
   "engines": {
     "node": ">=6.0.0"
   },
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "import-fixtures": "scripts/import-fixtures"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,11 @@
   "private": true,
   "devDependencies": {
     "chai": "^3.5.0",
-    "express": "^4.14.0",
     "mocha": "^2.5.3"
+  },
+  "dependencies": {
+    "bluebird": "^3.4.1",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.1"
   }
 }

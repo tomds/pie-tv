@@ -1,0 +1,23 @@
+{
+    "name": "Arsenal TV",
+    "category": "Sports",
+    "locationId": "london"
+}
+{
+    "name": "Chelsea TV",
+    "category": "Sports",
+    "locationId": "london"
+}
+{
+    "name": "Liverpool TV",
+    "category": "Sports",
+    "locationId": "liverpool"
+}
+{
+    "name": "Sky News",
+    "category": "News"
+}
+{
+    "name": "Sky Sports News",
+    "category": "News"
+}

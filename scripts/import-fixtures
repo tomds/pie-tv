@@ -1,0 +1,4 @@
+#!/bin/sh
+
+mongoimport --db pietv --collection channels --drop --file fixtures/channels.json
+mongoimport --db pietv --collection customers --drop --file fixtures/customers.json
