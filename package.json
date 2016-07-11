@@ -10,7 +10,8 @@
     "test": "mocha",
     "import-fixtures": "scripts/import-fixtures",
     "init-hooks": "cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit",
-    "eslint": "eslint ."
+    "eslint": "eslint .",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -24,16 +25,31 @@
   "homepage": "https://github.com/tomds/pie-tv#readme",
   "private": true,
   "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-eslint": "^6.1.2",
+    "babel-loader": "^6.2.4",
     "chai": "^3.5.0",
+    "css-loader": "^0.23.1",
     "eslint": "^3.0.1",
     "eslint-config-airbnb-base": "^4.0.0",
     "eslint-plugin-import": "^1.10.2",
-    "mocha": "^2.5.3"
+    "file-loader": "^0.9.0",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "mocha": "^2.5.3",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7"
   },
   "dependencies": {
+    "babel-core": "^6.10.4",
+    "babel-preset-es2015": "^6.9.0",
     "bluebird": "^3.4.1",
+    "bootstrap": "^3.3.6",
     "express": "^4.14.0",
+    "extract-text-webpack-plugin": "^1.0.1",
     "mongodb": "^2.2.1",
-    "nunjucks": "^2.4.2"
+    "nunjucks": "^2.4.2",
+    "webpack": "^1.13.1",
+    "webpack-bundle-tracker": "0.0.93"
   }
 }

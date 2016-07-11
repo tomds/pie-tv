@@ -27,6 +27,8 @@ class Server {
     }
 
     defineRoutes() {
+        this.app.use('/static', express.static('bundles'));
+
         this.app.get('/', (req, res) => {
             res.render('index');
         });

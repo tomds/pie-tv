@@ -18,6 +18,12 @@ npm run import-fixtures
 ```
 
 ## Running the server
+In one terminal window:
+```
+npm run watch
+```
+
+And in another:
 ```
 npm start
 ```
