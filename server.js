@@ -7,7 +7,7 @@ class Server {
         this.start = Promise.coroutine(this.start);
     }
 
-    *start() {
+    * start() {
         const db = yield this.connect();
         const results = yield db.collection('channels').find({}).toArray();
         return results;

@@ -8,7 +8,9 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha",
-    "import-fixtures": "scripts/import-fixtures"
+    "import-fixtures": "scripts/import-fixtures",
+    "init-hooks": "cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit",
+    "eslint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,9 @@
   "private": true,
   "devDependencies": {
     "chai": "^3.5.0",
+    "eslint": "^3.0.1",
+    "eslint-config-airbnb-base": "^4.0.0",
+    "eslint-plugin-import": "^1.10.2",
     "mocha": "^2.5.3"
   },
   "dependencies": {
