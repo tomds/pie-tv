@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import CustomerLocationService from '../server/location';
 
 
@@ -14,5 +13,18 @@ describe('Location', () => {
                 expect(location).to.equal('london')
             ))
         ));
+
+        it('should raise an exception for an invalid customer ID', () => {
+            let exceptionsRaised = 0;
+
+            return service.connection.then(() => (
+                service.getLocation(6)
+            )).catch((exception) => {
+                exceptionsRaised++;
+                return expect(exception.name).to.equal('noCustomer');
+            }).then(() => (
+                expect(exceptionsRaised).to.equal(1)
+            ));
+        });
     });
 });

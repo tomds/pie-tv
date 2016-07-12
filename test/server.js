@@ -42,7 +42,7 @@ describe('Login', () => {
 });
 
 describe('Checkout', () => {
-    describe('#getSelectedChannels', () => {
+    describe('#getSelectedChannels()', () => {
         const req = {
             body: {
                 selectedChannels: '["Sky News", "Arsenal TV"]',
