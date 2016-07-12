@@ -1,28 +1,31 @@
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
-const Promise = require('bluebird');
 const nunjucks = require('nunjucks');
 
 
 class Server {
-    constructor() {
-        this.start = Promise.coroutine(this.start);
-
+    constructor(connectionString) {
         this.app = express();
         this.app.set('view engine', 'html');
         nunjucks.configure(
             'views',
             {
                 autoescape: true,
+                noCache: true,
                 express: this.app,
             }
         );
 
+        this.initDb(connectionString);
+
         this.defineRoutes();
     }
 
-    * start() {
-        this.db = yield MongoClient.connect('mongodb://localhost/pietv');
+    initDb(connectionString) {
+        this.connection = MongoClient.connect(connectionString);
+    }
+
+    start() {
         this.app.listen(3000);
     }
 
@@ -30,10 +33,15 @@ class Server {
         this.app.use('/static', express.static('bundles'));
 
         this.app.get('/', (req, res) => {
-            res.render('index');
+            this.getCustomers().then((customers) => {
+                res.render('index', { customers });
+            });
         });
+    }
+
+    getCustomers() {
+        return this.connection.then((db) => db.collection('customers').find().toArray());
     }
 }
 
-const server = new Server();
-server.start();
+module.exports = Server;
