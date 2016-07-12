@@ -4,6 +4,7 @@ const express = require('express');
 const nunjucks = require('nunjucks');
 
 const DbAwareService = require('./db-aware-service');
+const CatalogueService = require('./catalogue');
 const CustomerLocationService = require('./location');
 
 
@@ -19,7 +20,7 @@ class Server extends DbAwareService {
         nunjucks.configure(
             'views',
             {
-                autoescape: true,
+                autoescape: false,
                 noCache: true,
                 express: this.app,
             }
@@ -33,6 +34,7 @@ class Server extends DbAwareService {
 
         // Initialise services, passing them the db connection settings
         this.customerLocationService = new CustomerLocationService(this.dbConnectionString);
+        this.catalogueService = new CatalogueService(this.dbConnectionString);
 
         // Set up URLs
         this.defineRoutes();
@@ -64,10 +66,12 @@ class Server extends DbAwareService {
         this.app.get('/channels/', (req, res) => {
             const customer = this.getLoggedInCustomer(req);
 
-            this.customerLocationService.getLocation(customer.id).then((locationId) => {
+            this.customerLocationService.getLocation(customer.id).then((locationId) => (
+                this.catalogueService.getChannels(locationId)
+            )).then((channels) => {
                 res.render('channels', {
                     loggedInCustomer: customer,
-                    locationId,
+                    channels: JSON.stringify(channels),
                 });
             });
         });
@@ -95,7 +99,7 @@ class Server extends DbAwareService {
             db.collection('customers').findOne({ customerId: id })
         )).then((customer) => {
             // Set cookies for customer ID, name
-            res.cookie('customerId', customer.id);
+            res.cookie('customerId', id);
             res.cookie('customerName', customer.name);
             return customer;
         });

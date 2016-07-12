@@ -1,14 +1,11 @@
 import { expect } from 'chai';
 
 import CustomerLocationService from '../server/location';
-// import { setUpDb } from './utils';
 
 
-const service = new CustomerLocationService('mongodb://localhost/pietv-test');
+const service = new CustomerLocationService('mongodb://localhost/pietv');
 
 describe('Location', () => {
-    // beforeEach(() => (setUpDb(service)));
-
     describe('#getLocation()', () => {
         it('should return the right location for the given user', () => (
             service.connection.then(() => (
