@@ -71,7 +71,7 @@ class Server extends DbAwareService {
             )).then((channels) => {
                 res.render('channels', {
                     loggedInCustomer: customer,
-                    channels: JSON.stringify(channels),
+                    channels,
                 });
             });
         });
