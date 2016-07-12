@@ -9,8 +9,8 @@ v3.2+ and [Node.js](https://nodejs.org/en/download/) v6+.
 
 ## Configuration
 By default, the app will listen on port 3000 and attempt to connect to a Mongo
-database at localhost:27017/pietv. If you want to change these settings, simply
-edit config.js in the project root directory.
+database at `localhost:27017/pietv`. If you want to change these settings, simply
+edit `config.js` in the project root directory.
 
 ## Installation
 ```
