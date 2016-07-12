@@ -9,3 +9,7 @@ node_modules
 # Sublime Text
 *.sublime-project
 *.sublime-workspace
+
+# Build tool output
+bundles
+!.gitkeep
