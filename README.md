@@ -37,3 +37,8 @@ Tested in Chrome 51, Firefox 47, IE 9
 ```
 npm test
 ```
+
+## Running eslint (code quality checking)
+```
+npm run eslint
+```
