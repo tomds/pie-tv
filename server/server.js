@@ -6,6 +6,7 @@ const nunjucks = require('nunjucks');
 const DbAwareService = require('./db-aware-service');
 const CatalogueService = require('./catalogue');
 const CustomerLocationService = require('./location');
+const config = require('../config.js');
 
 
 class Server extends DbAwareService {
@@ -41,7 +42,7 @@ class Server extends DbAwareService {
     }
 
     start() {
-        this.app.listen(3000);
+        this.app.listen(config.listenPort);
     }
 
     defineRoutes() {

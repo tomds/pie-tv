@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import config from '../config.js';
 import Server from '../server/server';
 
 
-const server = new Server('mongodb://localhost/pietv');
+const server = new Server(config.dbConnectionString);
 
 describe('GetCustomers', () => {
     describe('#getCustomers()', () => {

@@ -1,9 +1,10 @@
 import { expect } from 'chai';
 
 import CatalogueService from '../server/catalogue';
+import config from '../config.js';
 
 
-const service = new CatalogueService('mongodb://localhost/pietv');
+const service = new CatalogueService(config.dbConnectionString);
 
 describe('Catalogue', () => {
     describe('#getChannels()', () => {

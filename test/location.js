@@ -1,8 +1,10 @@
 import { expect } from 'chai';
+
+import config from '../config.js';
 import CustomerLocationService from '../server/location';
 
 
-const service = new CustomerLocationService('mongodb://localhost/pietv');
+const service = new CustomerLocationService(config.dbConnectionString);
 
 describe('Location', () => {
     describe('#getLocation()', () => {
