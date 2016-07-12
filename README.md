@@ -31,6 +31,7 @@ npm start
 ```
 
 ## Browser support
+Tested in Chrome 51, Firefox 47, IE 9
 
 ## Running tests
 ```
