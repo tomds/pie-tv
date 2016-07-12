@@ -41,10 +41,16 @@ class Server extends DbAwareService {
         this.defineRoutes();
     }
 
+    /**
+     * Start the webserver
+     */
     start() {
         this.app.listen(config.listenPort);
     }
 
+    /**
+     * URL definitions
+     */
     defineRoutes() {
         // Serve static files compiled by webpack
         this.app.use('/static', express.static('bundles'));
@@ -67,9 +73,12 @@ class Server extends DbAwareService {
         this.app.get('/channels/', (req, res) => {
             const customer = this.getLoggedInCustomer(req);
 
+            // First try to get location for current customer
             this.customerLocationService.getLocation(customer.id).then((locationId) => (
+                // Then get the filtered channel catalogue for this location
                 this.catalogueService.getChannels(locationId)
             )).then((channels) => {
+                // Render the channels page with the channel info
                 res.render('channels', {
                     loggedInCustomer: customer,
                     channels,
@@ -102,8 +111,9 @@ class Server extends DbAwareService {
      * @return {Promise} A Promise which will resolve to the customer object.
      */
     login(customerId, res) {
-        // Find customer in dB
         const id = parseInt(customerId, 10);
+
+        // Find customer in dB
         return this.connection.then((db) => (
             db.collection('customers').findOne({ customerId: id })
         )).then((customer) => {

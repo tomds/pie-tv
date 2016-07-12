@@ -8,11 +8,10 @@ class DbAwareService {
     constructor(dbconnectionString) {
         this.dbConnectionString = dbconnectionString;
 
-        // Init database connection
         this.initDb();
     }
 
-    /*
+    /**
      * Initialises a database connection (as a Promise) and stores it on the
      * object.
      */
