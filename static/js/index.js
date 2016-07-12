@@ -10,8 +10,8 @@ class ChannelSelector {
 
     bindEvents() {
         const checkboxes = document.getElementsByName('channels');
-        for (const checkbox of checkboxes) {
-            checkbox.addEventListener('click', (e) => this.clickChannel(e));
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].addEventListener('click', (e) => this.clickChannel(e));
         }
     }
 
@@ -20,11 +20,18 @@ class ChannelSelector {
         const channelName = e.currentTarget.value;
 
         if (e.currentTarget.checked) {
-            const li = document.createElement('li');
+            // Check channel isn't already in list
+            const selectedChannel = document.querySelectorAll(
+                `#selected-channels [data-name="${channelName}"]`
+            );
 
-            li.setAttribute('data-name', channelName);
-            li.innerText = channelName;
-            selectedChannelsList.appendChild(li);
+            if (!selectedChannel.length) {
+                const li = document.createElement('li');
+
+                li.setAttribute('data-name', channelName);
+                li.innerText = channelName;
+                selectedChannelsList.appendChild(li);
+            }
         } else {
             const selectedChannel = document.querySelectorAll(
                 `#selected-channels [data-name="${channelName}"]`
