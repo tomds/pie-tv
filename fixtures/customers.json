@@ -1,15 +1,15 @@
 {
-    "customerId": "1",
+    "customerId": 1,
     "name": "London Customer",
     "locationId": "london"
 }
 {
-    "customerId": "2",
+    "customerId": 2,
     "name": "Liverpool Customer",
     "locationId": "liverpool"
 }
 {
-    "customerId": "3",
+    "customerId": 3,
     "name": "Manchester Customer",
     "locationId": "manchester"
 }

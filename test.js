@@ -1,10 +1,12 @@
-import { assert } from 'chai';
+import { expect } from 'chai';
+import sinon from 'sinon';
+
 import Server from './server/server';
 
 
-describe('GetCustomers', () => {
-    const server = new Server('mongodb://localhost/pietv-test');
+const server = new Server('mongodb://localhost/pietv-test');
 
+describe('GetCustomers', () => {
     beforeEach(() => {
         let db;
 
@@ -14,22 +16,22 @@ describe('GetCustomers', () => {
         }).then(() => (
             db.collection('customers').insertMany([
                 {
-                    customerId: '1',
+                    customerId: 1,
                     name: 'London Customer',
                     locationId: 'london',
                 },
                 {
-                    customerId: '2',
+                    customerId: 2,
                     name: 'Liverpool Customer',
                     locationId: 'liverpool',
                 },
                 {
-                    customerId: '3',
+                    customerId: 3,
                     name: 'Manchester Customer',
                     locationId: 'manchester',
                 },
                 {
-                    customerId: '4',
+                    customerId: 4,
                     name: 'York Customer',
                     locationId: 'york',
                 },
@@ -42,8 +44,19 @@ describe('GetCustomers', () => {
             server.connection.then(() => (
                 server.getCustomers()
             )).then((customers) => (
-                assert.equal(customers.length, 4)
+                expect(customers.length).to.equal(4)
             ))
         ));
+    });
+});
+
+describe('login', () => {
+    describe('#setCustomerCookie()', () => {
+        it('should call the cookie method on the response object', () => {
+            const res = { cookie: sinon.spy() };
+
+            server.setCustomerCookie(1, res);
+            expect(res.cookie.calledOnce).to.equal(true);
+        });
     });
 });
