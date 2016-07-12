@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Thank you for your purchase</h1>
+    <p>You have purchased the following channels:</p>
+
+    <ul>
+        {% for channel in selectedChannels %}
+            <li>{{ channel }}</li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="/">Start again</a></p>
+{% endblock %}

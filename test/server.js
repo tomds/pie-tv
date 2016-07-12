@@ -18,7 +18,7 @@ describe('GetCustomers', () => {
     });
 });
 
-describe('login', () => {
+describe('Login', () => {
     describe('#login()', () => {
         const res = { cookie: sinon.spy() };
         const login = server.login(1, res);
@@ -37,6 +37,23 @@ describe('login', () => {
             login.then((customer) => (
                 expect(customer.name).to.equal('London Customer')
             ))
+        ));
+    });
+});
+
+describe('Checkout', () => {
+    describe('#getSelectedChannels', () => {
+        const req = {
+            body: {
+                selectedChannels: '["Sky News", "Arsenal TV"]',
+            },
+        };
+
+        it('should return an array of the selected channels', () => (
+            expect(server.getSelectedChannels(req)).to.have.members([
+                'Sky News',
+                'Arsenal TV',
+            ])
         ));
     });
 });

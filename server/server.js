@@ -75,6 +75,14 @@ class Server extends DbAwareService {
                 });
             });
         });
+
+        // Checkout page
+        this.app.post('/checkout/', (req, res) => {
+            res.render('checkout', {
+                loggedInCustomer: this.getLoggedInCustomer(req),
+                selectedChannels: this.getSelectedChannels(req),
+            });
+        });
     }
 
     /**
@@ -107,14 +115,23 @@ class Server extends DbAwareService {
 
     /**
      * Get the current logged in customer from the cookies, if present.
-     * @param {Request} - The request to get the cookies from.
-     * @return {object} Customer details in the form {id, name}
+     * @param {Request} req - The request to get the cookies from.
+     * @return {object} Customer details in the form {id, name}.
      */
     getLoggedInCustomer(req) {
         return {
             id: parseInt(req.cookies.customerId, 10),
             name: req.cookies.customerName,
         };
+    }
+
+    /**
+     * Get the customer's selected channels from form data.
+     * @param {Request} req - The request object containing the form data.
+     * @return {Array} List of channel names.
+     */
+    getSelectedChannels(req) {
+        return JSON.parse(req.body.selectedChannels);
     }
 }
 

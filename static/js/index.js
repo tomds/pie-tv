@@ -6,6 +6,7 @@ class ChannelSelector {
     constructor() {
         this.bindEvents();
         this.selectedChannels = [];
+        this.populateHiddenField();
     }
 
     bindEvents() {
@@ -16,6 +17,11 @@ class ChannelSelector {
     }
 
     clickChannel(e) {
+        this.toggleChannel(e);
+        this.populateHiddenField();
+    }
+
+    toggleChannel(e) {
         const selectedChannelsList = document.getElementById('selected-channels');
         const channelName = e.currentTarget.value;
 
@@ -36,8 +42,22 @@ class ChannelSelector {
             const selectedChannel = document.querySelectorAll(
                 `#selected-channels [data-name="${channelName}"]`
             )[0];
-            selectedChannelsList.removeChild(selectedChannel);
+
+            if (selectedChannel) {
+                selectedChannelsList.removeChild(selectedChannel);
+            }
         }
+    }
+
+    populateHiddenField() {
+        const checkboxes = document.querySelectorAll('[name="channels"]:checked');
+
+        const channelNames = [];
+        for (let i = 0; i < checkboxes.length; i++) {
+            channelNames.push(checkboxes[i].value);
+        }
+
+        document.getElementsByName('selectedChannels')[0].value = JSON.stringify(channelNames);
     }
 }
 
