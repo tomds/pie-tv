@@ -17,3 +17,7 @@
     <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
   </div>
 {% endblock %}
+
+{% block js_before %}
+  <script>window.locationId = '{{ locationId }}';</script>
+{% endblock %}

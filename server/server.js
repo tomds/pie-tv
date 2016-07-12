@@ -1,11 +1,16 @@
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const express = require('express');
-const MongoClient = require('mongodb').MongoClient;
 const nunjucks = require('nunjucks');
 
+const DbAwareService = require('./db-aware-service');
+const CustomerLocationService = require('./location');
 
-class Server {
-    constructor(connectionString) {
+
+class Server extends DbAwareService {
+    constructor(dbconnectionString) {
+        super(dbconnectionString);
+
         // Initialise an express server
         this.app = express();
 
@@ -23,15 +28,14 @@ class Server {
         // Add middleware for parsing form submissions
         this.app.use(bodyParser.urlencoded({ extended: false }));
 
-        // Init database connection
-        this.initDb(connectionString);
+        // Add middleware for parsing cookies
+        this.app.use(cookieParser());
+
+        // Initialise services, passing them the db connection settings
+        this.customerLocationService = new CustomerLocationService(this.dbConnectionString);
 
         // Set up URLs
         this.defineRoutes();
-    }
-
-    initDb(connectionString) {
-        this.connection = MongoClient.connect(connectionString);
     }
 
     start() {
@@ -39,17 +43,33 @@ class Server {
     }
 
     defineRoutes() {
+        // Serve static files compiled by webpack
         this.app.use('/static', express.static('bundles'));
 
+        // Homepage/customer login page
         this.app.get('/', (req, res) => {
             this.getCustomers().then((customers) => {
                 res.render('index', { customers });
             });
         });
 
+        // Login form post
         this.app.post('/login/', (req, res) => {
-            this.setCustomerCookie(req.body.customer, res);
-            res.redirect('/channels/');
+            this.login(req.body.customer, res).then(() => {
+                res.redirect('/channels/');
+            });
+        });
+
+        // Channel selection page
+        this.app.get('/channels/', (req, res) => {
+            const customer = this.getLoggedInCustomer(req);
+
+            this.customerLocationService.getLocation(customer.id).then((locationId) => {
+                res.render('channels', {
+                    loggedInCustomer: customer,
+                    locationId,
+                });
+            });
         });
     }
 
@@ -62,14 +82,35 @@ class Server {
     }
 
     /**
-     * Set a simple cookie containing the customer's ID, as submitted through
-     * the login form. We don't validate the ID at this point; the cookie value
-     * will be checked on each page load to ensure it hasn't been tampered with.
-     * @param {string} customerId - the customer's ID.
-     * @param {Response} res - the response object to set the cookie on.
+     * Set cookies for the customer's ID and name, retrieved from the database
+     * using the ID.
+     * @param {string} customerId - The customer's ID.
+     * @param {Response} res - The response object to set the cookie on.
+     * @return {Promise} A Promise which will resolve to the customer object.
      */
-    setCustomerCookie(customerId, res) {
-        res.cookie('customerId', customerId);
+    login(customerId, res) {
+        // Find customer in dB
+        const id = parseInt(customerId, 10);
+        return this.connection.then((db) => (
+            db.collection('customers').findOne({ customerId: id })
+        )).then((customer) => {
+            // Set cookies for customer ID, name
+            res.cookie('customerId', customer.id);
+            res.cookie('customerName', customer.name);
+            return customer;
+        });
+    }
+
+    /**
+     * Get the current logged in customer from the cookies, if present.
+     * @param {Request} - The request to get the cookies from.
+     * @return {object} Customer details in the form {id, name}
+     */
+    getLoggedInCustomer(req) {
+        return {
+            id: parseInt(req.cookies.customerId, 10),
+            name: req.cookies.customerName,
+        };
     }
 }
 
