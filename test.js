@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import Server from './server';
+import Server from './server/server';
 
 
 describe('GetCustomers', () => {

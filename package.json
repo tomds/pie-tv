@@ -5,12 +5,12 @@
   "engines": {
     "node": ">=6.0.0"
   },
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
     "eslint": "eslint .",
     "import-fixtures": "scripts/import-fixtures",
     "init-hooks": "cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit",
-    "start": "node index.js",
+    "start": "node server/index.js",
     "test": "mocha --compilers js:babel-core/register",
     "watch": "webpack --watch"
   },
