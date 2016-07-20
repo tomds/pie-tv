@@ -15,8 +15,8 @@ describe('Catalogue', () => {
                 const channelNames = channels.map((channel) => channel.name);
                 return expect(channelNames).to.have.members([
                     'Liverpool TV',
-                    'Sky News',
-                    'Sky Sports News',
+                    'Pie News',
+                    'Pie Sports News',
                 ]);
             })
         ));
@@ -29,8 +29,8 @@ describe('Catalogue', () => {
                 return expect(channelNames).to.have.members([
                     'Arsenal TV',
                     'Chelsea TV',
-                    'Sky News',
-                    'Sky Sports News',
+                    'Pie News',
+                    'Pie Sports News',
                 ]);
             })
         ));
@@ -41,8 +41,8 @@ describe('Catalogue', () => {
             )).then((channels) => {
                 const channelNames = channels.map((channel) => channel.name);
                 return expect(channelNames).to.have.members([
-                    'Sky News',
-                    'Sky Sports News',
+                    'Pie News',
+                    'Pie Sports News',
                 ]);
             })
         ));

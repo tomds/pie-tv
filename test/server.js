@@ -46,13 +46,13 @@ describe('Checkout', () => {
     describe('#getSelectedChannels()', () => {
         const req = {
             body: {
-                selectedChannels: '["Sky News", "Arsenal TV"]',
+                selectedChannels: '["Pie News", "Arsenal TV"]',
             },
         };
 
         it('should return an array of the selected channels', () => (
             expect(server.getSelectedChannels(req)).to.have.members([
-                'Sky News',
+                'Pie News',
                 'Arsenal TV',
             ])
         ));
