@@ -81,7 +81,7 @@ class Server extends DbAwareService {
                 // Render the channels page with the channel info
                 res.render('channels', {
                     loggedInCustomer: customer,
-                    channels,
+                    channels: JSON.stringify(channels),
                 });
             });
         });

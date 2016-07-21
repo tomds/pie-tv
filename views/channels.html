@@ -1,46 +1,48 @@
 {% extends 'base.html' %}
 
+{% macro category(name) %}
+  <div ng-repeat="channel in filterChannels('{{ name }}')" class="form-group">
+    <div class="form-group">
+        <label>
+            <input
+              type="checkbox"
+              name="channels"
+              value="{% raw %}{{ channel.name }}{% endraw %}"
+              ng-click="toggleChannel($event)"
+            />
+            {% raw %}{{ channel.name }}{% endraw %}
+        </label>
+    </div>
+  </div>
+{% endmacro %}
+
 {% block content %}
-  <h1>Customise your package</h1>
-  <div class="filter-box col-md-4">
-    <h2>Sports</h2>
-    {% for channel in channels %}
-        {% if channel.category == 'Sports' %}
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" name="channels" value="{{ channel.name }}" />
-                    {{ channel.name }}
-                </label>
-            </div>
-        {% endif %}
-    {% endfor %}
-  </div>
+  <div ng-app="channelSelector" ng-controller="channelList">
+    <h1>Customise your package</h1>
+    <div class="filter-box col-md-4">
+      <h2>Sports</h2>
+      {{ category('Sports') }}
+    </div>
 
-  <div class="filter-box col-md-4">
-    <h2>News</h2>
-    {% for channel in channels %}
-        {% if channel.category == 'News' %}
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" name="channels" value="{{ channel.name }}" />
-                    {{ channel.name }}
-                </label>
-            </div>
-        {% endif %}
-    {% endfor %}
-  </div>
+    <div class="filter-box col-md-4">
+      <h2>News</h2>
+      {{ category('News') }}
+    </div>
 
-  <div class="filter-box col-md-4">
-    <h2>Basket</h2>
-    <ul id="selected-channels"></ul>
+    <div class="filter-box col-md-4">
+      <h2>Basket</h2>
+      <ul id="selected-channels">
+        <li ng-repeat="channel in selectedChannels">{% raw %}{{ channel }}{% endraw %}</li>
+      </ul>
 
-    <form action="/checkout/" method="post">
-      <input type="hidden" name="selectedChannels" />
-      <button id="submit-order" class="btn btn-primary">Checkout</button>
-    </form>
+      <form action="/checkout/" method="post">
+        <input type="hidden" name="selectedChannels" value="{% raw %}{{ stringifyChannels() }}{% endraw %}" />
+        <button id="submit-order" class="btn btn-primary">Checkout</button>
+      </form>
+    </div>
   </div>
 {% endblock %}
 
 {% block js_before %}
-  <script>window.channels = '{{ channels }}';</script>
+  <script>window.channels = JSON.parse('{{ channels }}');</script>
 {% endblock %}
